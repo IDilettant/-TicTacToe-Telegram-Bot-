@@ -1,8 +1,10 @@
 #!/usr/bin/env python
+"""Basic module for bot logic."""
+
 
 def main():
-    """Module main function."""
-    pass
+    """Create main function."""
+    pass  # noqa: WPS420
 
 
 if __name__ == '__main__':
