@@ -4,8 +4,6 @@
 PLAYER_X = 1
 PLAYER_O = 2
 DIMENSION = 3
-board_state = [[None for row in range(DIMENSION)] for col in range(DIMENSION)]
-moves = []
 marker_to_char = {
     None: ' . ',
     PLAYER_X: ' x ',
@@ -102,10 +100,19 @@ def has_diagonal_win(current_state):
     return False
 
 
-def main():
-    """Create main function."""
-    show_board(board_state)  # noqa: WPS420
+def get_legal_moves(current_state):
+    """Get coordinates of possible moves.
 
+    Args:
+        current_state (list): board current state
 
-if __name__ == '__main__':
-    main()
+    Returns:
+        Coordinates of possible moves
+    """
+    possible_choices = []
+    for row in range(DIMENSION):
+        for col in range(DIMENSION):
+            # Check the board position is empty
+            if current_state[row][col] is None:
+                possible_choices.append([row, col])
+    return possible_choices
