@@ -2,11 +2,6 @@
 from xobot.scripts.player import PLAYER_O, PLAYER_X
 
 DIMENSION = 3
-marker_to_char = {
-    None: ' . ',
-    PLAYER_X: ' x ',
-    PLAYER_O: ' o ',
-}
 
 
 def show_board(current_state):
@@ -15,6 +10,11 @@ def show_board(current_state):
     Args:
         current_state (list): board current state
     """
+    marker_to_char = {
+        None: ' . ',
+        PLAYER_X: ' x ',
+        PLAYER_O: ' o ',
+    }
     for row in range(DIMENSION):
         line = []
         for col in range(DIMENSION):
