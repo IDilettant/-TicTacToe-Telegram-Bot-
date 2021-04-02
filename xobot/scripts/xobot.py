@@ -116,3 +116,20 @@ def get_legal_moves(current_state):
             if current_state[row][col] is None:
                 possible_choices.append([row, col])
     return possible_choices
+
+
+def make_move(current_state, row, col, player):
+    """Change board current state based on the move made.
+
+    Args:
+        current_state (list): board current state
+        row (int): board row index
+        col (int): board col index
+        player (int): current player
+
+    Returns:
+        Board current state
+    """
+    if current_state[row][col] in get_legal_moves(current_state):
+        current_state[row][col] = player
+    return current_state
