@@ -17,7 +17,7 @@ def switch_player(player):
     """Change current player.
 
     Args:
-        player: current player
+        player (int): current player
 
     Returns:
         another player
@@ -50,14 +50,16 @@ def has_row_win(current_state):
     for row in range(DIMENSION):
         unique_rows = set(current_state[row])
         if len(unique_rows) == 1:
-            return unique_rows.pop() is None
+            if unique_rows.pop() is not None:
+                return True
+    return False
 
 
 def has_col_win(current_state):
     """Check for a win vertically.
 
     Args:
-        current_state: board current state
+        current_state (list): board current state
 
     Returns:
         bool
@@ -67,7 +69,9 @@ def has_col_win(current_state):
         for row in range(DIMENSION):
             unique_cols.add(current_state[row][col])
         if len(unique_cols) == 1:
-            return unique_cols.pop() is None
+            if unique_cols.pop() is not None:
+                return True
+    return False
 
 
 def has_diagonal_win(current_state):
