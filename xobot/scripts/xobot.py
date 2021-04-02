@@ -70,6 +70,34 @@ def has_col_win(current_state):
             return unique_cols.pop() is None
 
 
+def has_diagonal_win(current_state):
+    """Check for a win diagonally.
+
+    Args:
+        current_state (list): board current state
+
+    Returns:
+        bool
+    """
+    # check backwards diagonal (top left to bottom right)
+    backwards_diag = set()
+    backwards_diag.add(current_state[0][0])
+    backwards_diag.add(current_state[1][1])
+    backwards_diag.add(current_state[2][2])
+    if len(backwards_diag) == 1:
+        if backwards_diag.pop() is not None:
+            return True
+    # check forwards diagonal (bottom left to top right)
+    forwards_diag = set()
+    forwards_diag.add(current_state[2][0])
+    forwards_diag.add(current_state[1][1])
+    forwards_diag.add(current_state[0][2])
+    if len(forwards_diag) == 1:
+        if forwards_diag.pop() is not None:
+            return True
+    return False
+
+
 def main():
     """Create main function."""
     show_board(board_state)  # noqa: WPS420
