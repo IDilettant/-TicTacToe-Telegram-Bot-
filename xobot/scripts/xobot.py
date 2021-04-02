@@ -39,7 +39,7 @@ def show_board(current_state):
 
 
 def has_row_win(current_state):
-    """Check for victory horizontally.
+    """Check for a win horizontally.
 
     Args:
         current_state (list): board current state
@@ -51,6 +51,23 @@ def has_row_win(current_state):
         unique_rows = set(current_state[row])
         if len(unique_rows) == 1:
             return unique_rows.pop() is None
+
+
+def has_col_win(current_state):
+    """Check for a win vertically.
+
+    Args:
+        current_state: board current state
+
+    Returns:
+        bool
+    """
+    for col in range(DIMENSION):
+        unique_cols = set()
+        for row in range(DIMENSION):
+            unique_cols.add(current_state[row][col])
+        if len(unique_cols) == 1:
+            return unique_cols.pop() is None
 
 
 def main():
