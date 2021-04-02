@@ -38,6 +38,21 @@ def show_board(current_state):
         print(''.join(line))
 
 
+def has_row_win(current_state):
+    """Check for victory horizontally.
+
+    Args:
+        current_state (list): board current state
+
+    Returns:
+        bool
+    """
+    for row in range(DIMENSION):
+        unique_rows = set(current_state[row])
+        if len(unique_rows) == 1:
+            return unique_rows.pop() is None
+
+
 def main():
     """Create main function."""
     show_board(board_state)  # noqa: WPS420
