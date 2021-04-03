@@ -13,4 +13,7 @@ lint:
 package-install:
 	python3 -m pip install --user dist/*.whl
 
+test:
+	poetry run pytest tests
+
 .PHONY: tictactoe tests
