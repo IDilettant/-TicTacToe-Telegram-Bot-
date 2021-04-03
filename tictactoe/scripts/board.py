@@ -118,23 +118,22 @@ def get_legal_moves(current_state):
         for col in range(SIDE_SIZE):
             # Check a cell is empty
             if current_state[row][col] is None:
-                possible_choices.append([row, col])
+                possible_choices.append((row, col))
     return possible_choices
 
 
-def make_move(current_state, row, col, player_mark):
+def make_move(current_state, next_move, player_mark):
     """Change board current state based on the move made.
 
     Args:
+        next_move (tuple): cell coordinates
         current_state (list): board current state
-        row (int): board row index
-        col (int): board col index
         player_mark (int): mark of current player
 
     Returns:
         Board current state
     """
-    next_move = current_state[row][col]
+    row, col = next_move
     legal_moves = get_legal_moves(current_state)
     if next_move in legal_moves:
         current_state[row][col] = player_mark
