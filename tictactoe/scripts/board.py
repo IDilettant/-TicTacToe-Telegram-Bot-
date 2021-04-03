@@ -4,7 +4,7 @@ import tictactoe.scripts.player as player
 SIDE_SIZE = 3
 
 
-def show_board(current_state):
+def show_state(current_state):
     """Print current state of board.
 
     Args:
@@ -120,3 +120,22 @@ def get_legal_moves(current_state):
             if current_state[row][col] is None:
                 possible_choices.append([row, col])
     return possible_choices
+
+
+def make_move(current_state, row, col, player_mark):
+    """Change board current state based on the move made.
+
+    Args:
+        current_state (list): board current state
+        row (int): board row index
+        col (int): board col index
+        player_mark (int): mark of current player
+
+    Returns:
+        Board current state
+    """
+    next_move = current_state[row][col]
+    legal_moves = get_legal_moves(current_state)
+    if next_move in legal_moves:
+        current_state[row][col] = player_mark
+    return current_state
