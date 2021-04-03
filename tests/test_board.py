@@ -15,6 +15,16 @@ two_empty_state = [
     [2, 1, 1],
     [1, None, None],
 ]
+backwards_diagonal = [
+    [2, None, None],
+    [None, 2, None],
+    [None, None, 2],
+]
+forwards_diagonal = [
+    [None, None, 1],
+    [None, 1, None],
+    [1, None, None],
+]
 
 
 def test_get_legal_moves():
@@ -38,3 +48,35 @@ def test_make_move():
         [None, None, 2],
     ]
     assert board.make_move(full_of_x, (1, 1), player.o_char) == full_of_x
+
+
+def test_has_row_win():
+    """Test checking for a win horizontally."""
+    assert board.has_row_win(full_of_x) is True
+    assert board.has_row_win(empty_board) is False
+    assert board.has_row_win(two_empty_state) is False
+
+
+def test_has_col_win():
+    """Test checking for a win vertically."""
+    assert board.has_row_win(full_of_x) is True
+    assert board.has_row_win(empty_board) is False
+    assert board.has_row_win(two_empty_state) is False
+
+
+def test_has_diagonal_win():
+    """Test checking for a win diagonally."""
+    assert board.has_row_win(full_of_x) is True
+    assert board.has_row_win(empty_board) is False
+    assert board.has_row_win(two_empty_state) is False
+    assert board.has_row_win(backwards_diagonal) is True
+    assert board.has_row_win(forwards_diagonal) is True
+
+
+def test_has_win():
+    """Test checking for the win."""
+    assert board.has_win(full_of_x) is True
+    assert board.has_win(empty_board) is False
+    assert board.has_win(two_empty_state) is False
+    assert board.has_win(backwards_diagonal) is True
+    assert board.has_win(forwards_diagonal) is True
