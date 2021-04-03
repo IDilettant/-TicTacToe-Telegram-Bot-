@@ -23,4 +23,4 @@ jobs:
           poetry install
       - name: Run Flake8-WPS
         run: |
-          poetry run flake8 xobot
+          poetry run flake8 tictactoe
