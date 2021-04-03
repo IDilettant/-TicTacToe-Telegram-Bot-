@@ -32,3 +32,11 @@ repos:
     rev: 5.7.0
     hooks:
       - id: isort
+-   repo: local
+    hooks:
+    -   id: pytest-check
+        name: pytest-check
+        entry: poetry run pytest -v tests/
+        language: system
+        pass_filenames: false
+        always_run: true
