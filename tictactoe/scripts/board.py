@@ -1,5 +1,5 @@
 """Board module."""
-from xobot.scripts.player import PLAYER_O, PLAYER_X
+import tictactoe.scripts.player as player
 
 DIMENSION = 3
 
@@ -12,8 +12,8 @@ def show_board(current_state):
     """
     marker_to_char = {
         None: ' . ',
-        PLAYER_X: ' x ',
-        PLAYER_O: ' o ',
+        player.x_char: ' x ',
+        player.o_char: ' o ',
     }
     for row in range(DIMENSION):
         line = []
@@ -86,7 +86,7 @@ def has_diagonal_win(current_state):
     return False
 
 
-def has_win(current_state):
+def has_winner(current_state):
     """Check for the win.
 
     Args:
@@ -120,20 +120,3 @@ def get_legal_moves(current_state):
             if current_state[row][col] is None:
                 possible_choices.append([row, col])
     return possible_choices
-
-
-def make_move(current_state, row, col, player):
-    """Change board current state based on the move made.
-
-    Args:
-        current_state (list): board current state
-        row (int): board row index
-        col (int): board col index
-        player (int): current player
-
-    Returns:
-        Board current state
-    """
-    if current_state[row][col] in get_legal_moves(current_state):
-        current_state[row][col] = player
-    return current_state
