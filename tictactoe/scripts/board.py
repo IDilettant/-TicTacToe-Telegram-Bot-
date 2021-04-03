@@ -86,7 +86,7 @@ def has_diagonal_win(current_state):
     return False
 
 
-def has_winner(current_state):
+def has_win(current_state):
     """Check for the win.
 
     Args:
