@@ -1,7 +1,7 @@
 """Board module."""
 import tictactoe.scripts.player as player
 
-DIMENSION = 3
+SIDE_SIZE = 3
 
 
 def show_board(current_state):
@@ -10,15 +10,15 @@ def show_board(current_state):
     Args:
         current_state (list): board current state
     """
-    marker_to_char = {
+    markers_cells = {
         None: ' . ',
         player.x_char: ' x ',
         player.o_char: ' o ',
     }
-    for row in range(DIMENSION):
+    for row in range(SIDE_SIZE):
         line = []
-        for col in range(DIMENSION):
-            line.append(marker_to_char[current_state[row][col]])
+        for col in range(SIDE_SIZE):
+            line.append(markers_cells[current_state[row][col]])
         print(''.join(line))
 
 
@@ -31,7 +31,7 @@ def has_row_win(current_state):
     Returns:
         bool
     """
-    for row in range(DIMENSION):
+    for row in range(SIDE_SIZE):
         unique_rows = set(current_state[row])
         if len(unique_rows) == 1:
             if unique_rows.pop() is not None:
@@ -48,9 +48,9 @@ def has_col_win(current_state):
     Returns:
         bool
     """
-    for col in range(DIMENSION):
+    for col in range(SIDE_SIZE):
         unique_cols = set()
-        for row in range(DIMENSION):
+        for row in range(SIDE_SIZE):
             unique_cols.add(current_state[row][col])
         if len(unique_cols) == 1:
             if unique_cols.pop() is not None:
@@ -114,9 +114,9 @@ def get_legal_moves(current_state):
         Coordinates of possible moves
     """
     possible_choices = []
-    for row in range(DIMENSION):
-        for col in range(DIMENSION):
-            # Check the board position is empty
+    for row in range(SIDE_SIZE):
+        for col in range(SIDE_SIZE):
+            # Check a cell is empty
             if current_state[row][col] is None:
                 possible_choices.append([row, col])
     return possible_choices
