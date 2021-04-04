@@ -19,4 +19,7 @@ tests:
 test-coverage:
 	poetry run pytest --cov=tictactoe --cov-report xml tests/
 
+pre-commit:
+	poetry run pre-commit run --all-files
+
 .PHONY: tictactoe tests
