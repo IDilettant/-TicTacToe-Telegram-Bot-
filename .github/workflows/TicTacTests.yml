@@ -19,11 +19,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          python3 -m pip install poetry
+          pip install poetry
           make install
       - name: Test & publish code coverage
         run: |
-          make test-coverage
+          make cover
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.5
         env:
