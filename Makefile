@@ -13,7 +13,10 @@ lint:
 package-install:
 	python3 -m pip install --user dist/*.whl
 
-test:
-	poetry run pytest tests
+tests:
+	poetry run pytest --cov-report term:skip-covered tictactoe tests/
+
+test-coverage:
+	poetry run pytest --cov=tictactoe --cov-report xml tests/
 
 .PHONY: tictactoe tests
