@@ -22,4 +22,7 @@ cover:
 pre-commit:
 	poetry run pre-commit run --all-files
 
+complex:
+	poetry run flake8 --max-cognitive-complexity=5 $(file)
+
 .PHONY: tictactoe tests
