@@ -36,7 +36,7 @@ repos:
     hooks:
     -   id: pytest-check
         name: pytest-check
-        entry: poetry run pytest -v tests/
+        entry: poetry run pytest -v tictactoe tests/
         language: system
         pass_filenames: false
         always_run: true
