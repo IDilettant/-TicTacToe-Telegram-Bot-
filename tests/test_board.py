@@ -1,82 +1,84 @@
 """Tests of board."""
-import tictactoe.scripts.board as board
-import tictactoe.scripts.player as player
+from tictactoe.scripts.board import Board
 
-empty_board = [
-    [None for row in range(board.SIDE_SIZE)] for col in range(board.SIDE_SIZE)
-]
-full_of_x = [
-    [
-        player.x_char for row in range(board.SIDE_SIZE)
-    ] for col in range(board.SIDE_SIZE)
-]
-two_empty_state = [
-    [1, 2, 1],
-    [2, 1, 1],
-    [2, None, None],
-]
-backwards_diagonal = [
-    [2, None, None],
-    [None, 2, None],
-    [None, None, 2],
-]
-forwards_diagonal = [
-    [None, None, 1],
-    [None, 1, None],
-    [1, None, None],
-]
+X_CHAR = ' x '
+O_CHAR = ' o '
 
 
-def test_get_legal_moves():
-    """Test getting coordinates of possible moves."""
-    assert len(board.get_legal_moves(empty_board)) == 9
-    assert len(board.get_legal_moves(two_empty_state)) == 2
-    assert bool(board.get_legal_moves(full_of_x)) is False
-    assert board.get_legal_moves(two_empty_state) == [(2, 1), (2, 2)]
+def test_make_move(board_states, moves_coordinate):
+    """Test changing board current state based on the move made.
+
+    Args:
+        board_states (list): states of game board
+        moves_coordinate (list): coordinates of moves
+    """
+    for case in zip(board_states, moves_coordinate):
+        board = Board()
+        state, moves = case
+        for move in moves:
+            board.make_move(move, X_CHAR)
+        assert board.current_state == state
 
 
-def test_make_move():
-    """Test changing board current state based on the move made."""
-    assert board.make_move(empty_board, (0, 0), player.x_char) == [
-        [1, None, None],
-        [None, None, None],
-        [None, None, None],
-    ]
-    assert board.make_move(empty_board, (2, 2), player.o_char) == [
-        [1, None, None],
-        [None, None, None],
-        [None, None, 2],
-    ]
-    assert board.make_move(full_of_x, (1, 1), player.o_char) == full_of_x
+def test_make_move_for_full_of_o():
+    """Test changing board full of ' o ' state based on the move made."""
+    board = Board()
+    full_of_o = {cell: O_CHAR for cell in range(board.side_size ** 2)}
+    for move, char in full_of_o.items():
+        board.make_move(move, char)
+    board.make_move(4, X_CHAR)
+    assert board.current_state == full_of_o
 
 
-def test_has_row_win():
-    """Test checking for a win horizontally."""
-    assert board.has_row_win(full_of_x) is True
-    assert board.has_row_win(empty_board) is False
-    assert board.has_row_win(two_empty_state) is False
+def test_get_grid(moves_coordinate, grids):
+    """Test getting a grid of the current state of game board.
+
+    Args:
+        grids (list): grids of game board
+        moves_coordinate (list): coordinates of moves for board states
+    """
+    for case in zip(moves_coordinate, grids):
+        board = Board()
+        moves, grid = case
+        for move in moves:
+            board.make_move(move, X_CHAR)
+        assert board.get_grid() == grid
 
 
-def test_has_col_win():
-    """Test checking for a win vertically."""
-    assert board.has_col_win(full_of_x) is True
-    assert board.has_col_win(empty_board) is False
-    assert board.has_col_win(two_empty_state) is False
+def test_line_has_match():
+    """Test homogenic of the incoming sequence."""
+    board = Board()
+    assert board._line_has_match(  # noqa: WPS437
+        [X_CHAR, X_CHAR, X_CHAR],
+    ) is True
+    assert board._line_has_match(  # noqa: WPS437
+        [O_CHAR, O_CHAR, O_CHAR],
+    ) is True
+    assert board._line_has_match([' . ', ' . ', ' . ']) is False  # noqa: WPS437
+    assert board._line_has_match([]) is False  # noqa: WPS437
 
 
-def test_has_diagonal_win():
-    """Test checking for a win diagonally."""
-    assert board.has_diagonal_win(full_of_x) is True
-    assert board.has_diagonal_win(empty_board) is False
-    assert board.has_diagonal_win(two_empty_state) is False
-    assert board.has_diagonal_win(backwards_diagonal) is True
-    assert board.has_diagonal_win(forwards_diagonal) is True
+def test_has_win(board_states):
+    """Test checking board for the win.
+
+    Args:
+        board_states (list): states of game board
+
+    """
+    for state in board_states:
+        board = Board()
+        for move, char in state.items():
+            board.make_move(move, char)
+        assert board.has_win() is True
 
 
-def test_has_win():
-    """Test checking for the win."""
-    assert board.has_win(full_of_x) is True
-    assert board.has_win(empty_board) is False
-    assert board.has_win(two_empty_state) is False
-    assert board.has_win(backwards_diagonal) is True
-    assert board.has_win(forwards_diagonal) is True
+def test_tie_state_has_win(tie_state):
+    """Test checking tie state of game board for the win.
+
+    Args:
+        tie_state (dict): tie state of game board
+    """
+    board = Board()
+    for move, char in tie_state.items():
+        board.make_move(move, char)
+    assert board.has_win() is False
