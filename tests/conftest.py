@@ -1,5 +1,6 @@
 """Fixtures module."""
 import pytest
+from tictactoe.scripts.player import Player
 
 
 @pytest.fixture
@@ -10,54 +11,52 @@ def board_states():  # noqa: WPS210
         board states
     """
     board_size = 9
-    empty = ' . '
-    x_char = ' x '
     full_of_x = {
-        cell: x_char for cell in range(board_size)
+        cell: Player.x_char for cell in range(board_size)
     }
     row = {
-        0: empty,
-        1: empty,
-        2: empty,
-        3: empty,
-        4: empty,
-        5: empty,
-        6: x_char,
-        7: x_char,
-        8: x_char,
+        0: Player.none,
+        1: Player.none,
+        2: Player.none,
+        3: Player.none,
+        4: Player.none,
+        5: Player.none,
+        6: Player.x_char,
+        7: Player.x_char,
+        8: Player.x_char,
     }
     col = {
-        0: empty,
-        1: empty,
-        2: x_char,
-        3: empty,
-        4: empty,
-        5: x_char,
-        6: empty,
-        7: empty,
-        8: x_char,
+        0: Player.none,
+        1: Player.none,
+        2: Player.x_char,
+        3: Player.none,
+        4: Player.none,
+        5: Player.x_char,
+        6: Player.none,
+        7: Player.none,
+        8: Player.x_char,
     }
     backwards_diagonal = {
-        0: x_char,
-        1: empty,
-        2: empty,
-        3: empty,
-        4: x_char,
-        5: empty,
-        6: empty,
-        7: empty,
-        8: x_char,
+        0: Player.x_char,
+        1: Player.none,
+        2: Player.none,
+        3: Player.none,
+        4: Player.x_char,
+        5: Player.none,
+        6: Player.none,
+        7: Player.none,
+        8: Player.x_char,
     }
     forwards_diagonal = {
-        0: empty,
-        1: empty,
-        2: x_char,
-        3: empty,
-        4: x_char,
-        5: empty,
-        6: x_char,
-        7: empty,
-        8: empty,
+        0: Player.none,
+        1: Player.none,
+        2: Player.x_char,
+        3: Player.none,
+        4: Player.x_char,
+        5: Player.none,
+        6: Player.x_char,
+        7: Player.none,
+        8: Player.none,
     }
     return [
         full_of_x,
@@ -76,32 +75,32 @@ def grids():  # noqa: WPS210
         grids of board
     """
     side_size = 3
-    empty = ' . '
-    x_char = ' x '
     full_of_x = [
         [
-            x_char for _ in range(side_size)
+            Player.x_char.value for _ in range(side_size)
         ] for _ in range(side_size)
     ]
     row = [
-        [empty, empty, empty],
-        [empty, empty, empty],
-        [x_char, x_char, x_char],
+        [Player.none.value, Player.none.value, Player.none.value],
+        [Player.none.value, Player.none.value, Player.none.value],
+        [Player.x_char.value, Player.x_char.value, Player.x_char.value],
     ]
     col = [
-        [empty, empty, x_char],  # noqa: WPS204
-        [empty, empty, x_char],
-        [empty, empty, x_char],
+        [  # noqa:WPS204
+            Player.none.value, Player.none.value, Player.x_char.value,
+        ],
+        [Player.none.value, Player.none.value, Player.x_char.value],
+        [Player.none.value, Player.none.value, Player.x_char.value],
     ]
     backwards_diagonal = [
-        [x_char, empty, empty],
-        [empty, x_char, empty],
-        [empty, empty, x_char],
+        [Player.x_char.value, Player.none.value, Player.none.value],
+        [Player.none.value, Player.x_char.value, Player.none.value],
+        [Player.none.value, Player.none.value, Player.x_char.value],
     ]
     forwards_diagonal = [
-        [empty, empty, x_char],
-        [empty, x_char, empty],
-        [x_char, empty, empty],
+        [Player.none.value, Player.none.value, Player.x_char.value],
+        [Player.none.value, Player.x_char.value, Player.none.value],
+        [Player.x_char.value, Player.none.value, Player.none.value],
     ]
     return [
         full_of_x,
@@ -141,16 +140,14 @@ def tie_state():
     Returns:
         Tie state of game board
     """
-    x_char = ' x '
-    o_char = ' o '
     return {
-        0: x_char,
-        1: o_char,
-        2: x_char,
-        3: x_char,
-        4: o_char,
-        5: x_char,
-        6: o_char,
-        7: x_char,
-        8: o_char,
+        0: Player.x_char,
+        1: Player.o_char,
+        2: Player.x_char,
+        3: Player.x_char,
+        4: Player.o_char,
+        5: Player.x_char,
+        6: Player.o_char,
+        7: Player.x_char,
+        8: Player.o_char,
     }

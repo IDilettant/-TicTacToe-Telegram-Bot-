@@ -1,4 +1,5 @@
 """Board module."""
+from tictactoe.scripts.player import Player
 
 
 class Board(object):
@@ -12,7 +13,7 @@ class Board(object):
         """
         self.side_size = 3
         self.current_state = {
-            cell: ' . ' for cell in range(self.side_size ** 2)
+            cell: Player.none for cell in range(self.side_size ** 2)
         }
         self.moves_made = []
 
@@ -25,25 +26,44 @@ class Board(object):
         keys = list(self.current_state.keys())
         return [
             [
-                self.current_state[keys.pop(0)] for _ in range(self.side_size)
+                self.current_state[
+                    keys.pop(0)
+                ].value for _ in range(self.side_size)
             ] for _ in range(self.side_size)
         ]
 
-    def make_move(self, move, player_char):
+    def get_legal_moves(self):
+        """Get possible moves for current board state.
+
+        Returns:
+            Coordinates of possible moves
+        """
+        return [
+            cell for cell, player in self.current_state.items() if
+            player == Player.none
+        ]
+
+    def last_move(self):
+        """Get the last made move.
+
+        Returns:
+            The last made move
+        """
+        return self.moves_made[-1]
+
+    def make_move(self, move, current_player):
         """Change board current state based on the move made.
 
         Args:
-            move (int): coordinate of board cell
-            player_char (str): char of current player
+            move (int): num of board cell
+            current_player: a player which make the current move
 
         Returns:
             Board current state
         """
-        legal_moves = [
-            cell for cell, char in self.current_state.items() if char == ' . '
-        ]
+        legal_moves = self.get_legal_moves()
         if move in legal_moves:
-            self.current_state[move] = player_char
+            self.current_state[move] = current_player
         self.moves_made.append(move)
         return self.current_state
 

@@ -11,6 +11,7 @@ class Player(Enum):
 
     x_char = ' x '
     o_char = ' o '
+    none = ' . '
 
     def switch_turn(self):
         """Change the current player.
