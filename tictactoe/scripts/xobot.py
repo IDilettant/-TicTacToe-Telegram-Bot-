@@ -36,6 +36,18 @@ class XoBot(object):
         """
         self.player = player
 
+    def select_move(self, board):
+        """Choose next move for current player.
+
+        Args:
+            board: current state of game board
+
+        Returns:
+            Coordinate of cell
+        """
+        node = self._find_best_choice(board, self.player)
+        return node.move
+
     def _make_alpha_pruning(
         self,
         node,
