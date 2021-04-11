@@ -15,3 +15,19 @@ class Node(object):
         self.move = move
         self.value = value  # noqa: WPS110
         self.depth = depth
+
+
+class XoBot(object):
+    """A bot for tic tac toe game.
+
+    implements the minimax algorithm with alpha-beta pruning
+    and depth-first search strategy
+    """
+
+    def __init__(self, player):
+        """Build a class constructor.
+
+        Args:
+            player: selected player for bot
+        """
+        self.player = player
