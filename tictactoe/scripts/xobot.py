@@ -53,3 +53,25 @@ class XoBot(object):
         if alpha_choice.value >= beta_choice.value:
             return node
         return alpha_choice
+
+    def _make_beta_pruning(
+        self,
+        node,
+        alpha_choice,
+        beta_choice,
+    ):
+        """Make branch pruning for minimizing player.
+
+        Args:
+            node: node of tree of possible choices of game board state
+            alpha_choice: class instance containing value of upper bound
+            beta_choice: class instance containing value of lower bound
+
+        Returns:
+            Class instance contain value for lower bound of possible solutions
+        """
+        if node.value < beta_choice.value:
+            beta_choice.value = node.value
+        if alpha_choice.value >= beta_choice.value:
+            return node
+        return beta_choice
