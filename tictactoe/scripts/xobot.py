@@ -9,7 +9,7 @@ class Node(object):
     """Node of tree of possible states of game board."""
 
     def __init__(self, move=0, value=0, depth=0):  # noqa: WPS110
-        """Build a class instance.
+        """Initialize a class instance.
 
         Args:
             move (int): coordinate of board cell
@@ -29,7 +29,7 @@ class XoBot(object):
     """
 
     def __init__(self, player):
-        """Build a class constructor.
+        """Initialize a class instance.
 
         Args:
             player: selected player for bot
@@ -64,9 +64,9 @@ class XoBot(object):
         Returns:
             Class instance contain value for upper bound of possible solutions
         """
-        if node.value > alpha_choice.value:
+        if node > alpha_choice:
             alpha_choice = node
-        if alpha_choice.value >= beta_choice.value:
+        if alpha_choice >= beta_choice:
             return node
         return alpha_choice
 
@@ -86,9 +86,9 @@ class XoBot(object):
         Returns:
             Class instance contain value for lower bound of possible solutions
         """
-        if node.value < beta_choice.value:
-            beta_choice.value = node.value
-        if alpha_choice.value >= beta_choice.value:
+        if node < beta_choice:
+            beta_choice = node
+        if alpha_choice >= beta_choice:
             return node
         return beta_choice
 
@@ -120,8 +120,8 @@ class XoBot(object):
                 new_board,
                 current_player.switch_turn(),
                 depth + 1,
-                alpha_choice.value,
-                beta_choice.value,
+                alpha_choice,
+                beta_choice,
             )
             node.move = new_board.last_move
             if current_player == Player.x_char:
