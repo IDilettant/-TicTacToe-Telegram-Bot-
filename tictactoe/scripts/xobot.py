@@ -1,24 +1,19 @@
 """Basic module for bot logic."""
 import copy
+from dataclasses import dataclass
 from sys import maxsize
 
+from tictactoe.scripts.board import Board
 from tictactoe.scripts.player import Player
 
 
+@dataclass
 class Node(object):
     """Node of tree of possible states of game board."""
 
-    def __init__(self, move=0, value=0, depth=0):  # noqa: WPS110
-        """Initialize a class instance.
-
-        Args:
-            move (int): coordinate of board cell
-            value (int): outcome significance of board state
-            depth (int): sequential number of the tree level
-        """
-        self.move = move
-        self.value = value  # noqa: WPS110
-        self.depth = depth
+    move: int = 0
+    value: int = 0  # noqa: WPS110
+    depth: int = 0
 
 
 class XoBot(object):
@@ -28,7 +23,7 @@ class XoBot(object):
     and depth-first search strategy
     """
 
-    def __init__(self, player):
+    def __init__(self, player: Player):
         """Initialize a class instance.
 
         Args:
@@ -36,7 +31,7 @@ class XoBot(object):
         """
         self.player = player
 
-    def select_move(self, board):
+    def select_move(self, board: Board):
         """Choose next move for current player.
 
         Args:
@@ -50,9 +45,9 @@ class XoBot(object):
 
     def _make_alpha_pruning(
         self,
-        node,
-        alpha_choice,
-        beta_choice,
+        node: Node,
+        alpha_choice: Node,
+        beta_choice: Node,
     ):
         """Make branch pruning for maximizing player.
 
@@ -64,17 +59,17 @@ class XoBot(object):
         Returns:
             Class instance contain value for upper bound of possible solutions
         """
-        if node > alpha_choice:
+        if node.value > alpha_choice.value:
             alpha_choice = node
-        if alpha_choice >= beta_choice:
+        if alpha_choice.value >= beta_choice.value:
             return node
         return alpha_choice
 
     def _make_beta_pruning(
         self,
-        node,
-        alpha_choice,
-        beta_choice,
+        node: Node,
+        alpha_choice: Node,
+        beta_choice: Node,
     ):
         """Make branch pruning for minimizing player.
 
@@ -86,19 +81,19 @@ class XoBot(object):
         Returns:
             Class instance contain value for lower bound of possible solutions
         """
-        if node < beta_choice:
+        if node.value < beta_choice.value:
             beta_choice = node
-        if alpha_choice >= beta_choice:
+        if alpha_choice.value >= beta_choice.value:
             return node
         return beta_choice
 
     def _make_deep_first_search(  # noqa: WPS211 WPS210
         self,
-        board,
-        current_player,
-        depth,
-        alpha_choice,
-        beta_choice,
+        board: Board,
+        current_player: Player,
+        depth: int,
+        alpha_choice: Node,
+        beta_choice: Node,
     ):
         """Search best move for possible moves on game board.
 
@@ -110,7 +105,7 @@ class XoBot(object):
             beta_choice: class instance containing value of lower bound
 
         Returns:
-            Class instance containing best possible move
+            An instance of Node class with best value for the next move
         """
         legal_moves = board.get_legal_moves()
         for move in legal_moves:
@@ -118,51 +113,59 @@ class XoBot(object):
             new_board.make_move(move, current_player)
             node = self._find_best_choice(
                 new_board,
-                current_player.switch_turn(),
+                current_player.switch_turn,
                 depth + 1,
-                alpha_choice,
-                beta_choice,
+                alpha_choice.value,
+                beta_choice.value,
             )
             node.move = new_board.last_move
             if current_player == Player.x_char:
                 alpha_choice = self._make_alpha_pruning(
                     node, alpha_choice, beta_choice,
                 )
+                if alpha_choice.value >= beta_choice.value:
+                    return node
             else:
                 beta_choice = self._make_beta_pruning(
                     node, alpha_choice, beta_choice,
                 )
+                if alpha_choice.value >= beta_choice.value:
+                    return node
         return alpha_choice if current_player == Player.x_char else beta_choice
 
     def _find_best_choice(  # noqa: WPS211
         self,
-        board,
-        current_player,
-        depth=0,
-        alpha=-maxsize,
-        beta=maxsize,
+        board: Board,
+        current_player: Player,
+        depth: int = 0,
+        alpha: int = -maxsize,
+        beta: int = maxsize,
     ):
         """Find best choice from possible moves on game board.
 
         Args:
             board: current state of game board
             current_player: a player which make the current move
-            depth (int): sequential number of the tree level
-            alpha (int): the maximum lower bound of possible solutions
-            beta (int): the minimum upper bound of possible solutions
+            depth: sequential number of the tree level
+            alpha: the maximum lower bound of possible solutions
+            beta: the minimum upper bound of possible solutions
 
         Returns:
-            An instance of Choice class
+            An instance of Node class with best value for the next move
         """
         alpha_choice = Node(value=alpha)
         beta_choice = Node(value=beta)
 
         if board.has_win():
             if current_player == Player.x_char:
-                return Node(board.get_last_move(), 10 - depth, depth)
-            return Node(board.get_last_move(), -10 + depth, depth)
+                return Node(
+                    move=board.last_move,
+                    value=(-10 + depth),
+                    depth=depth,
+                )
+            return Node(move=board.last_move, value=(10 - depth), depth=depth)
         elif len(board.moves_made) == 9:
-            return Node(board.last_move(), 0, depth)
+            return Node(move=board.last_move, value=0, depth=depth)
 
         return self._make_deep_first_search(
             board,
