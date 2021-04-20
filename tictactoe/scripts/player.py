@@ -13,6 +13,7 @@ class Player(Enum):
     o_char = ' o '
     none = ' . '
 
+    @property
     def switch_turn(self):
         """Change the current player.
 
