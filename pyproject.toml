@@ -11,6 +11,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
+mypy = "^0.812"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.11.1"
