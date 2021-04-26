@@ -2,7 +2,7 @@
 import copy
 from dataclasses import dataclass
 from sys import maxsize
-from typing import Tuple
+from typing import Optional, Tuple
 
 from tictactoe.scripts.board import Board
 from tictactoe.scripts.mark import Mark
@@ -12,7 +12,7 @@ from tictactoe.scripts.mark import Mark
 class Node:
     """Node of tree of possible states of game board."""
 
-    move: Tuple[int, int] = None
+    move: Optional[Tuple[int, int]] = None
     value: int = 0  # noqa: WPS110
 
 
@@ -32,7 +32,7 @@ class XoBot:
         """
         self.player = player
 
-    def select_move(self, board: Board) -> Tuple[int, int]:
+    def select_move(self, board: Board) -> Optional[Tuple[int, int]]:
         """Choose next move for current player.
 
         Args:

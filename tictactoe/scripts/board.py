@@ -1,5 +1,5 @@
 """Board module."""
-from typing import List, Tuple, Union
+from typing import Iterable, List, Tuple
 
 from tictactoe.scripts.mark import Mark
 
@@ -72,6 +72,6 @@ class Board:  # noqa: WPS214
             return True
         return False
 
-    def _line_has_match(self, line: Union[list, tuple]) -> bool:
+    def _line_has_match(self, line: Iterable) -> bool:
         line = set(line)
         return len(line) == 1 and line.pop() != Mark.empty_cell.value
