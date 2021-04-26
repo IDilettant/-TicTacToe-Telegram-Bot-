@@ -1,78 +1,61 @@
 """Board module."""
-from tictactoe.scripts.player import Player
+from typing import List, Tuple, Union
+
+from tictactoe.scripts.mark import Mark
 
 
-class Board(object):
+class Board:  # noqa: WPS214
     """Game board class."""
 
     def __init__(self):
-        """Build a class constructor.
-
-        The constructor takes the side size,
-        the basic state of the board and a list of moves
-        """
+        """Initialize a class instance."""
         self.side_size = 3
-        self.current_state = {
-            cell: Player.none for cell in range(self.side_size ** 2)
-        }
+        self.current_state = dict.fromkeys(
+            [(row, col) for row in range(self.side_size) for col in range(self.side_size)],  # noqa: E501
+            Mark.empty_cell,
+        )
         self.moves_made = []
 
-    def get_grid(self):
-        """Get a grid with chars according the current state of game board.
+    def get_grid(self) -> List[list]:
+        """Get a grid with chars according the current state of game board."""
+        grid = [list(range(self.side_size)) for _ in range(self.side_size)]
+        for cell, mark in self.current_state.items():
+            row, col = cell
+            grid[row][col] = mark.value
+        return grid
 
-        Returns:
-            Board grid
-        """
-        keys = list(self.current_state.keys())
+    @property
+    def legal_moves(self) -> list:
+        """Get possible moves for current board state."""
         return [
-            [
-                self.current_state[
-                    keys.pop(0)
-                ].value for _ in range(self.side_size)
-            ] for _ in range(self.side_size)
+            cell for cell, mark in self.current_state.items() if
+            mark == Mark.empty_cell
         ]
 
-    def get_legal_moves(self):
-        """Get possible moves for current board state.
-
-        Returns:
-            Coordinates of possible moves
-        """
-        return [
-            cell for cell, player in self.current_state.items() if
-            player == Player.none
-        ]
-
-    def last_move(self):
-        """Get the last made move.
-
-        Returns:
-            The last made move
-        """
+    @property
+    def last_move(self) -> Tuple[int, int]:
+        """Get the last made move."""
         return self.moves_made[-1]
 
-    def make_move(self, move, current_player):
+    @property
+    def game_winner(self):
+        """Get the game winner char."""
+        return self.current_state[self.last_move]
+
+    def make_move(self, move: Tuple[int, int], current_player: Mark) -> dict:
         """Change board current state based on the move made.
 
         Args:
-            move (int): num of board cell
-            current_player: a player which make the current move
-
-        Returns:
-            Board current state
+            move: coordinate of board cell
+            current_player: a player that make the current move
         """
-        legal_moves = self.get_legal_moves()
-        if move in legal_moves:
+        if move in self.legal_moves:
             self.current_state[move] = current_player
         self.moves_made.append(move)
         return self.current_state
 
-    def has_win(self):
-        """Check for the win.
-
-        Returns:
-            bool
-        """
+    def has_win(self) -> bool:
+        """Check for the win."""
         grid = self.get_grid()
         backwards_diag = [grid[cell][cell] for cell in range(self.side_size)]
         reversed_grid = list(reversed(grid))
@@ -89,6 +72,6 @@ class Board(object):
             return True
         return False
 
-    def _line_has_match(self, line):
+    def _line_has_match(self, line: Union[list, tuple]) -> bool:
         line = set(line)
-        return len(line) == 1 and line.pop() != ' . '
+        return len(line) == 1 and line.pop() != Mark.empty_cell.value
