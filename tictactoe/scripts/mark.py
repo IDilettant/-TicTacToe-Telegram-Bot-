@@ -12,7 +12,6 @@ class Mark(Enum):
     o_char = ' o '
     empty_cell = ' . '
 
-    @property
     def switch_char(self):
         """Change char for the current player."""
         return Mark.x_char if self == Mark.o_char else Mark.o_char
