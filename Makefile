@@ -25,4 +25,7 @@ pre-commit:
 complex:
 	poetry run flake8 --max-cognitive-complexity=5 $(file)
 
-.PHONY: tictactoe tests
+mypy:
+	poetry run mypy tictactoe
+
+.PHONY: tictactoe tests mypy
