@@ -42,7 +42,7 @@ class Board:  # noqa: WPS214
         """Get the game winner char."""
         return self.current_state[self.last_move]
 
-    def make_move(self, move: Tuple[int, int], current_player: Mark) -> dict:
+    def make_move(self, move: Tuple[int, int], current_player: Mark):
         """Change board current state based on the move made.
 
         Args:
@@ -52,7 +52,6 @@ class Board:  # noqa: WPS214
         if move in self.legal_moves:
             self.current_state[move] = current_player
         self.moves_made.append(move)
-        return self.current_state
 
     def has_win(self) -> bool:
         """Check for the win."""
