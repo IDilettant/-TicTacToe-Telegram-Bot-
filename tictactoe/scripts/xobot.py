@@ -17,18 +17,19 @@ class Node:
 
 
 class XoBot:
-    """A bot for tic tac toe game.
+    """A bot for tic-tac-toe game.
 
     Implements the minimax algorithm with alpha-beta pruning
     and depth-first search strategy
-    link: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+    alpha-beta minimax: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+    depth-first search: https://en.wikipedia.org/wiki/Depth-first_search
     """
 
     def __init__(self, player: Mark):
         """Initialize a class instance.
 
         Args:
-            player: selected player for bot
+            player: selected mark for bot-player
         """
         self.player = player
 
