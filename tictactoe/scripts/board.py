@@ -52,6 +52,7 @@ class Board:  # noqa: WPS214
         if move in self.legal_moves:
             self.current_state[move] = current_player
         self.moves_made.append(move)
+        return self
 
     def has_win(self) -> bool:
         """Check for the win."""
