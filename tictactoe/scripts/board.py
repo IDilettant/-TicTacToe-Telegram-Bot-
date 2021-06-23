@@ -21,8 +21,18 @@ class Board:  # noqa: WPS214
         grid = [list(range(self.side_size)) for _ in range(self.side_size)]
         for cell, mark in self.current_state.items():
             row, col = cell
-            grid[row][col] = mark.value
+            grid[row][col] = mark
         return grid
+
+    def get_view(self):
+        board_chars = {
+            Mark.x_char: '\u274c',
+            Mark.o_char: '\u2b55',
+            Mark.empty_cell: '\u2B1C',
+        }
+        grid = self.get_grid()
+        view = [''.join([board_chars[char] for char in line]) for line in grid]
+        return '\n'.join(view)
 
     @property
     def legal_moves(self) -> list:
@@ -40,7 +50,8 @@ class Board:  # noqa: WPS214
     @property
     def game_winner(self):
         """Get the game winner char."""
-        return self.current_state[self.last_move]
+        if self.has_win():
+            return self.current_state[self.last_move]
 
     def make_move(self, move: Tuple[int, int], current_player: Mark):
         """Change board current state based on the move made.
@@ -74,4 +85,4 @@ class Board:  # noqa: WPS214
 
     def _line_has_match(self, line: Iterable) -> bool:
         line = set(line)
-        return len(line) == 1 and line.pop() != Mark.empty_cell.value
+        return len(line) == 1 and line.pop() != Mark.empty_cell

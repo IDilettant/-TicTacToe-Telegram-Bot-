@@ -27,7 +27,7 @@ def test_make_impossible_move():
 
 
 def test_make_move_for_full_of_o():
-    """Test changing board full of ' o ' state based on the move made."""
+    """Test changing board full of Mark.o_char state based on the move made."""
     board = Board()
     full_of_o = dict.fromkeys(
         [(row, col) for row in range(board.side_size) for col in range(board.side_size)],  # noqa: E501
@@ -58,13 +58,13 @@ def test_line_has_match():
     """Test homogenic of the incoming sequence."""
     board = Board()
     assert board._line_has_match(  # noqa: WPS437
-        [' x ', ' x ', ' x '],
+        [Mark.x_char, Mark.x_char, Mark.x_char],
     ) is True
     assert board._line_has_match(  # noqa: WPS437
-        [' o ', ' o ', ' o '],
+        [Mark.o_char, Mark.o_char, Mark.o_char],
     ) is True
     assert board._line_has_match(  # noqa: WPS437
-        [' . ', ' . ', ' . '],
+        [Mark.empty_cell, Mark.empty_cell, Mark.empty_cell],
     ) is False
     assert board._line_has_match([]) is False  # noqa: WPS437
 
@@ -119,3 +119,11 @@ def test_get_last_move():
     board = Board()
     board.make_move((1, 1), Mark.x_char)
     assert board.last_move == (1, 1)
+
+
+def test_get_view(tie_state):
+    board = Board()
+    tie_state_view = '\u274c\u274c\u2b55\n\u2b55\u2b55\u274c\n\u274c\u274c\u2b55'
+    board.current_state = tie_state
+    view = board.get_view()
+    assert view == tie_state_view

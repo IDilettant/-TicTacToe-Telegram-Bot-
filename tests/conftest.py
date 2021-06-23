@@ -79,30 +79,30 @@ def grids():  # noqa: WPS210
     board = Board()
     full_of_x = [
         [
-            Mark.x_char.value for _ in range(board.side_size)
+            Mark.x_char for _ in range(board.side_size)
         ] for _ in range(board.side_size)
     ]
     row = [
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.empty_cell.value],
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.empty_cell.value],
-        [Mark.x_char.value, Mark.x_char.value, Mark.x_char.value],
+        [Mark.empty_cell, Mark.empty_cell, Mark.empty_cell],
+        [Mark.empty_cell, Mark.empty_cell, Mark.empty_cell],
+        [Mark.x_char, Mark.x_char, Mark.x_char],
     ]
     col = [
         [  # noqa:WPS204
-            Mark.empty_cell.value, Mark.empty_cell.value, Mark.x_char.value,
+            Mark.empty_cell, Mark.empty_cell, Mark.x_char,
         ],
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.x_char.value],
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.x_char.value],
+        [Mark.empty_cell, Mark.empty_cell, Mark.x_char],
+        [Mark.empty_cell, Mark.empty_cell, Mark.x_char],
     ]
     backwards_diagonal = [
-        [Mark.x_char.value, Mark.empty_cell.value, Mark.empty_cell.value],
-        [Mark.empty_cell.value, Mark.x_char.value, Mark.empty_cell.value],
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.x_char.value],
+        [Mark.x_char, Mark.empty_cell, Mark.empty_cell],
+        [Mark.empty_cell, Mark.x_char, Mark.empty_cell],
+        [Mark.empty_cell, Mark.empty_cell, Mark.x_char],
     ]
     forwards_diagonal = [
-        [Mark.empty_cell.value, Mark.empty_cell.value, Mark.x_char.value],
-        [Mark.empty_cell.value, Mark.x_char.value, Mark.empty_cell.value],
-        [Mark.x_char.value, Mark.empty_cell.value, Mark.empty_cell.value],
+        [Mark.empty_cell, Mark.empty_cell, Mark.x_char],
+        [Mark.empty_cell, Mark.x_char, Mark.empty_cell],
+        [Mark.x_char, Mark.empty_cell, Mark.empty_cell],
     ]
     return [
         full_of_x,
