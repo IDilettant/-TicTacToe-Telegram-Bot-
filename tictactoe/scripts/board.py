@@ -24,7 +24,12 @@ class Board:  # noqa: WPS214
             grid[row][col] = mark
         return grid
 
-    def get_view(self):
+    def get_view(self) -> str:
+        """Get view of game board state for end od the game.
+
+        Returns:
+            View of game board state with emojis
+        """
         board_chars = {
             Mark.x_char: '\u274c',
             Mark.o_char: '\u2b55',

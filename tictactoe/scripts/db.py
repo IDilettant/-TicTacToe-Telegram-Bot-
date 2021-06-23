@@ -88,8 +88,9 @@ def fetch_games_statistic(user_id: int) -> Dict:
 
 
 def get_stats_view(user_id: int, game: Game) -> str:
-    """Get view of final game board state
-     and current games statistic at the end of the game
+    """Get view of final game board state.
+
+     And current games statistic at the end of the game
      with comment.
 
     Args:
