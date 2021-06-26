@@ -77,12 +77,23 @@ def update_games_statistic(game: Game, user_id: int) -> None:
 
 
 def update_user_name(user_id, user_name):
+    """Update current username from chat.
+
+    Args:
+        user_id: user Telegram id
+        user_name: user Telegram name
+    """
     command = 'UPDATE players SET user_name = ? WHERE player_id = ?'
     cursor.execute(command, (user_name, user_id))
     base.commit()
 
 
 def fetch_user_name(user_id):
+    """Fetch current username from database.
+
+    Args:
+        user_id: user Telegram id
+    """
     command = 'SELECT user_name FROM players WHERE player_id = ?'
     cursor.execute(command, (user_id,))
     return cursor.fetchone()[0]
