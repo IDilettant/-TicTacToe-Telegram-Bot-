@@ -16,6 +16,7 @@ def create_players_table() -> None:
     """Create table for users."""
     command = """CREATE TABLE IF NOT EXISTS players (
         'player_id' INTEGER PRIMARY KEY,
+        'user_name' TEXT,
         'game_state' TEXT,
         'start_flag' BLOB,
         'games_statistic' TEXT
@@ -75,6 +76,18 @@ def update_games_statistic(game: Game, user_id: int) -> None:
     base.commit()
 
 
+def update_user_name(user_id, user_name):
+    command = 'UPDATE players SET user_name = ? WHERE player_id = ?'
+    cursor.execute(command, (user_name, user_id))
+    base.commit()
+
+
+def fetch_user_name(user_id):
+    command = 'SELECT user_name FROM players WHERE player_id = ?'
+    cursor.execute(command, (user_id,))
+    return cursor.fetchone()[0]
+
+
 def fetch_games_statistic(user_id: int) -> Dict:
     """Fetch games statistic from users table.
 
@@ -87,7 +100,7 @@ def fetch_games_statistic(user_id: int) -> Dict:
     return json.loads(stats)
 
 
-def get_stats_view(user_id: int, game: Game) -> str:
+def get_stats_view(user_id: int, game: Game) -> str:  # noqa: WPS210
     """Get view of final game board state.
 
      And current games statistic at the end of the game
@@ -106,6 +119,7 @@ def get_stats_view(user_id: int, game: Game) -> str:
         'lose': '🤖',
     }
     stats = fetch_games_statistic(user_id)
+    user_name = fetch_user_name(user_id)
     game_results = '  '.join(
         [game_stat_emojis[game_result] for game_result in stats.keys()],
     )
@@ -115,7 +129,7 @@ def get_stats_view(user_id: int, game: Game) -> str:
     if winner == game.user_player:
         comment = '\n\nFatal Error! Self-destruct protocol initiated...'
     elif winner == game.AI.player:
-        comment = '\n\nYour game is over\nSuch is the fate of every human'
+        comment = '\n\nYour game is over, {0}!\nSuch is the fate of every human'.format(user_name)  # noqa: E501
     else:
         comment = """\n
 You're playing the game
@@ -180,7 +194,7 @@ def delete(user_id: str) -> None:
     base.commit()
 
 
-def check_db_exists() -> None:
+def check_table_exists() -> None:
     """Check the database is initialized if not initializes it."""
     check_exist_command = """
         SELECT name FROM sqlite_master

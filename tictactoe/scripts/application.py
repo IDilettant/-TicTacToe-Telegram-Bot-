@@ -16,7 +16,7 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = OhMyBot(BOT_TOKEN)
-server_name = ''
+server_name = 'https://50d66c9678a8.ngrok.io'
 
 app = FastAPI()
 
@@ -37,7 +37,9 @@ async def updates_handler(request: Request):
         message_id = message['message_id']
         if message.get('text') == '/start':
             user_id = message['from']['id']
+            user_name = message['chat']['first_name']
             db.insert_user(user_id)
+            db.update_user_name(user_id, user_name)
             start_flag = db.fetch_start_flag(user_id)
             if start_flag:
                 bot.send_sticker(
@@ -94,5 +96,5 @@ async def updates_handler(request: Request):
 
 if __name__ == '__main__':
     bot.set_webhook('{0}/hook'.format(server_name))
-    db.check_db_exists()
+    db.check_table_exists()
     uvicorn.run(app)
