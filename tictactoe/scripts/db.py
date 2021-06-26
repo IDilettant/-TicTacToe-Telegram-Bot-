@@ -7,7 +7,7 @@ from typing import Dict
 
 from tictactoe.scripts.game import Game
 
-base_name = './xogame.db'
+base_name = '../../xogame.db'
 base = sqlite3.connect(os.path.join(base_name))
 cursor = base.cursor()
 
