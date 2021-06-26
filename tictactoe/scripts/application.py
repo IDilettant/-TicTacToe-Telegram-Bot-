@@ -3,6 +3,7 @@ import json
 import os
 
 import tictactoe.scripts.db as db
+import uvicorn
 from dataclass_factory import Factory
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
@@ -16,8 +17,6 @@ load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = OhMyBot(BOT_TOKEN)
 server_name = ''
-
-bot.set_webhook('{0}/hook'.format(server_name))
 
 app = FastAPI()
 
@@ -38,7 +37,6 @@ async def updates_handler(request: Request):
         message_id = message['message_id']
         if message.get('text') == '/start':
             user_id = message['from']['id']
-            db.check_db_exists()
             db.insert_user(user_id)
             start_flag = db.fetch_start_flag(user_id)
             if start_flag:
@@ -92,3 +90,9 @@ async def updates_handler(request: Request):
                 db.switch_start_flag(user_id)
             db.update_game_state(game, user_id)
     return {'ok': 200}
+
+
+if __name__ == '__main__':
+    bot.set_webhook('{0}/hook'.format(server_name))
+    db.check_db_exists()
+    uvicorn.run(app)
