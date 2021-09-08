@@ -3,9 +3,9 @@
 from typing import List, Tuple
 
 import pytest
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.mark import Mark
-from tictactoe.scripts.xobot import XoBot
+from tictactoe.board import Board
+from tictactoe.mark import Mark
+from tictactoe.xobot import XoBot
 
 
 def build_game_situations() -> List[Tuple[Board, Tuple[int, int]]]:  # noqa: WPS213 WPS234 E501

@@ -1,7 +1,7 @@
 """Board module."""
 from typing import Iterable, List, Tuple
 
-from tictactoe.scripts.mark import Mark
+from tictactoe.mark import Mark
 
 
 class Board:  # noqa: WPS214

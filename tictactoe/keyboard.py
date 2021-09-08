@@ -3,8 +3,8 @@ import json
 from typing import Dict, List, Optional
 
 from dataclass_factory import Factory
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.mark import Mark
+from tictactoe.board import Board
+from tictactoe.mark import Mark
 
 
 def create_button(text: str = ' ', **kwargs) -> dict:

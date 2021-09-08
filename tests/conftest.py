@@ -1,7 +1,7 @@
 """Fixtures module."""
 import pytest
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.mark import Mark
+from tictactoe.board import Board
+from tictactoe.mark import Mark
 
 
 @pytest.fixture

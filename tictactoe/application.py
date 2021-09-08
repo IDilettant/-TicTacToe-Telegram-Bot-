@@ -2,21 +2,21 @@
 import json
 import os
 
-import tictactoe.scripts.db as db
+import tictactoe.db as db
 import uvicorn
 from dataclass_factory import Factory
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
-from tictactoe.scripts.bot_handler import OhMyBot
-from tictactoe.scripts.game import Game
-from tictactoe.scripts.keyboard import choice
-from tictactoe.scripts.mark import Mark
+from tictactoe.bot_handler import OhMyBot
+from tictactoe.game import Game
+from tictactoe.keyboard import choice
+from tictactoe.mark import Mark
 
 load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = OhMyBot(BOT_TOKEN)
-server_name = 'https://50d66c9678a8.ngrok.io'
+server_name = 'https://424c-89-178-221-37.ngrok.io'
 
 app = FastAPI()
 
@@ -97,4 +97,4 @@ async def updates_handler(request: Request):
 if __name__ == '__main__':
     bot.set_webhook('{0}/hook'.format(server_name))
     db.check_table_exists()
-    uvicorn.run(app)
+    uvicorn.run(app, port=8000, host='0.0.0.0')

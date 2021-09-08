@@ -1,6 +1,6 @@
-"""Tests for game board."""  # flake8: noqa
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.mark import Mark
+"""Tests for game board."""
+from tictactoe.board import Board
+from tictactoe.mark import Mark
 
 
 def test_make_move(board_states: list, moves_coordinate: list):
@@ -123,7 +123,7 @@ def test_get_last_move():
 
 def test_get_view(tie_state):
     board = Board()
-    tie_state_view = '\u274c\u274c\u2b55\n\u2b55\u2b55\u274c\n\u274c\u274c\u2b55'
+    tie_state_view = '\u274c\u274c\u2b55\n\u2b55\u2b55\u274c\n\u274c\u274c\u2b55'  # noqa: E501
     board.current_state = tie_state
     view = board.get_view()
     assert view == tie_state_view

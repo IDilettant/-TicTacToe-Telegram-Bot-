@@ -5,9 +5,9 @@ from typing import Dict
 import pook
 from dataclass_factory import Factory
 from dotenv import load_dotenv
-from tictactoe.scripts.bot_handler import OhMyBot
-from tictactoe.scripts.game import Game
-from tictactoe.scripts.mark import Mark
+from tictactoe.bot_handler import OhMyBot
+from tictactoe.game import Game
+from tictactoe.mark import Mark
 
 load_dotenv()
 
@@ -21,9 +21,9 @@ def test_game():  # noqa: WPS210 WPS218
     callback_data = {
         'player': factory.dump(Mark.o_char, Mark), 'coordinates': (1, 1),
     }
-    game._make_bot_move()  # noqa: WPS437, move = (0, 0)
+    game._make_bot_move()  # noqa: WPS437 WPS461, move = (0, 0)
     assert game.board.current_state[game.board.last_move] == Mark.x_char
-    game._switch_turn()  # noqa: WPS437
+    game._switch_turn()  # noqa: WPS437 WPS461
     assert game.current_player == Mark.o_char
     game.make_user_move(callback_data)
     assert game.board.current_state[game.board.last_move] == Mark.o_char

@@ -2,10 +2,8 @@ FROM python:3.8
 
 WORKDIR /usr/src/app
 
-ENV TELEGRAM_API_TOKEN=""
-
 COPY . /usr/src/app
-RUN pip install poetry
-RUN make install
+RUN pip install pyproject.toml
+
 
 CMD ["python", "application.py"]

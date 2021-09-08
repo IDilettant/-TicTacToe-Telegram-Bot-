@@ -4,8 +4,8 @@ from dataclasses import dataclass
 from sys import maxsize
 from typing import Optional, Tuple
 
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.mark import Mark
+from tictactoe.board import Board
+from tictactoe.mark import Mark
 
 
 @dataclass

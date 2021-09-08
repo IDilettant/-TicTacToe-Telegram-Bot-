@@ -5,7 +5,7 @@ import pickle  # noqa: S403
 import sqlite3
 from typing import Dict
 
-from tictactoe.scripts.game import Game
+from tictactoe.game import Game
 
 base_name = '../../xogame.db'
 base = sqlite3.connect(os.path.join(base_name))
@@ -37,7 +37,7 @@ def insert_user(user_id: int) -> None:
         insert_command = """
             INSERT INTO players (player_id, games_statistic, start_flag)
             VALUES (?, ?, TRUE)
-        """
+        """ # on conflict do nothing
         cursor.execute(insert_command, (user_id, base_stats))
         base.commit()
 

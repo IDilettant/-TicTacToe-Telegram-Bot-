@@ -1,13 +1,13 @@
 """Module of Game class."""
 import random
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 from dataclass_factory import Factory
-from tictactoe.scripts.board import Board
-from tictactoe.scripts.bot_handler import OhMyBot
-from tictactoe.scripts.keyboard import create_button, create_keyboard
-from tictactoe.scripts.mark import Mark
-from tictactoe.scripts.xobot import XoBot
+from tictactoe.board import Board
+from tictactoe.bot_handler import OhMyBot
+from tictactoe.keyboard import create_button, create_keyboard
+from tictactoe.mark import Mark
+from tictactoe.xobot import XoBot
 
 
 class Game:
@@ -59,7 +59,7 @@ class Game:
         Args:
             callback_data: callback data from inline keyboard
         """
-        move = tuple(callback_data['coordinates'])
+        move: Tuple[int, int] = tuple(callback_data['coordinates'])
         if move in self.board.legal_moves:
             self.board.make_move(move, self.user_player)
 
@@ -89,12 +89,13 @@ class Game:
         )
         if self.board.moves_made:
             message_id = self.update['result']['message_id']
-            self.bot.edit_message(
-                chat_id=chat_id,
-                message_id=message_id,
-                message='Show me what you can!',
-                keyboard=keyboard,
-            )
+            if message_id is not None:
+                self.bot.edit_message(
+                    chat_id=chat_id,
+                    message_id=message_id,
+                    message='Show me what you can!',
+                    keyboard=keyboard,
+                )
         else:
             self.bot.send_sticker(
                 chat_id=chat_id,
