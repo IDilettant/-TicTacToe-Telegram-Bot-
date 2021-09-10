@@ -37,7 +37,7 @@ def insert_user(user_id: int) -> None:
         insert_command = """
             INSERT INTO players (player_id, games_statistic, start_flag)
             VALUES (?, ?, TRUE)
-        """ # on conflict do nothing
+        """  # on conflict do nothing
         cursor.execute(insert_command, (user_id, base_stats))
         base.commit()
 
@@ -140,7 +140,7 @@ def get_stats_view(user_id: int, game: Game) -> str:  # noqa: WPS210
     if winner == game.user_player:
         comment = '\n\nFatal Error! Self-destruct protocol initiated...'
     elif winner == game.AI.player:
-        comment = '\n\nYour game is over, {0}!\nSuch is the fate of every human'.format(user_name)  # noqa: E501
+        comment = '\n\nYou loose, {0}! Your game is over'.format(user_name)  # noqa: E501
     else:
         comment = """\n
 You're playing the game
