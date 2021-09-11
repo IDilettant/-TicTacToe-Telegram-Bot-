@@ -3,7 +3,6 @@ import json
 import os
 
 import tictactoe.db as db
-import uvicorn
 from dataclass_factory import Factory
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
@@ -16,12 +15,11 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 bot = OhMyBot(BOT_TOKEN)
-server_name = 'https://424c-89-178-221-37.ngrok.io'
 
 app = FastAPI()
 
 
-@app.post('/hook')
+@app.post('/')
 async def updates_handler(request: Request):
     """Update handler for Telegram requests.
 
@@ -92,9 +90,3 @@ async def updates_handler(request: Request):
                 db.switch_start_flag(user_id)
             db.update_game_state(game, user_id)
     return {'ok': 200}
-
-
-if __name__ == '__main__':
-    bot.set_webhook('{0}/hook'.format(server_name))
-    db.check_table_exists()
-    uvicorn.run(app, port=8000, host='0.0.0.0')

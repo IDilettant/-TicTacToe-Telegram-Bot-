@@ -227,3 +227,6 @@ def _has_user(user_id) -> bool:
     if player_id is not None:
         player_id = player_id[0]
     return player_id == user_id
+
+
+check_table_exists()
