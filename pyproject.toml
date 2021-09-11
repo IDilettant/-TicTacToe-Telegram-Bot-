@@ -14,9 +14,10 @@ python = "^3.8"
 fastapi = "^0.63.0"
 uvicorn = "^0.13.4"
 requests = "^2.25.1"
-dataclass-factory = "^2.10.2"
+dataclass-factory = "^2.11"
 docker-compose = "^1.29.2"
 docker = "^5.0.2"
+heroku = "^0.1.4"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.11.1"
